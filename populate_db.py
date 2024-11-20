@@ -49,19 +49,22 @@ def create_fake_course(x):
     day_list = ["Monday", "Tuedsay", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     hour_list=[]
     for day in day_list:
-        for x in range(9,17):
-            hour_list.append([day, str(x)]) 
+        for h in range(9,17):
+            hour_list.append([day, str(h)]) 
  
-    for i in range(x):
+    for _ in range(x):
         sport_course = random.choice(sports_list)
+        chosen_hour = random.choice(hour_list)
+        hour_index = hour_list.index(chosen_hour)
+        hour_list.pop(hour_index)
         print(sport_course)
         print(random.choice(hour_list))
-        course = Course(sport_type=sport_course, hour="".join(random.choice(hour_list)), max_capacity=10, coach_id=session.exec(select(Coach).where(Coach.sport_speciality==sport_course)).first().id)
+        course = Course(sport_type=sport_course, hour="".join(chosen_hour), max_capacity=10, coach_id=session.exec(select(Coach).where(Coach.sport_speciality==sport_course)).first().id)
         session.add(course)
     session.commit()
     session.refresh(course)
     session.close()
 
-def create_fake_registrations(x):
-    
+# def create_fake_registrations(x):
+
     

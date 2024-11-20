@@ -6,7 +6,7 @@ def main():
     create_db_and_tables()
     create_fake_members(5)
     create_fake_coaches(7)
-    create_fake_course(4)
+    create_fake_course(2)
 
 
 if __name__ == "__main__":
