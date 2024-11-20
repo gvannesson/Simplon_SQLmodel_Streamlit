@@ -33,7 +33,7 @@ class Course(SQLModel, table=True):
     sport_type: str
     hour: str
     max_capacity: str    
-    coach_id: str| None = Field(default=None, foreign_key="coach.id")
+    coach_id: int| None = Field(default=None, foreign_key="coach.id")
 
     registrations : list[Registration] = Relationship(back_populates="course")
     coach : "Coach" = Relationship(back_populates="courses_list")
@@ -41,6 +41,6 @@ class Course(SQLModel, table=True):
 class Coach(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     name: str = Field(index=True)
-    email: str
+    sport_speciality: str
 
     courses_list : Optional[Course] = Relationship(back_populates="coach") 
