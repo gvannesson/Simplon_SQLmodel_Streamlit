@@ -4,8 +4,8 @@ from typing import Optional
 
 
 class Member(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    name: str = Field(index=True)
+    id: int | None = Field(index=True, default=None, primary_key=True)
+    name: str #= Field(index=True)
     email: str
     carte_access_id: str | None = Field(default=None, foreign_key="access_card.id")
 
@@ -20,8 +20,8 @@ class Access_card(SQLModel, table=True):
 
 class Registration(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    member_id: str | None = Field(default=None, foreign_key="member.id")
-    course_id: str | None = Field(default=None, foreign_key="course.id")
+    member_id: int | None = Field(default=None, foreign_key="member.id")
+    course_id: int | None = Field(default=None, foreign_key="course.id")
     registration_date: str
 
     member : Member = Relationship(back_populates="registrations")
@@ -32,7 +32,7 @@ class Course(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     sport_type: str
     hour: str
-    max_capacity: str    
+    max_capacity: int   
     coach_id: int| None = Field(default=None, foreign_key="coach.id")
 
     registrations : list[Registration] = Relationship(back_populates="course")
@@ -43,4 +43,4 @@ class Coach(SQLModel, table=True):
     name: str = Field(index=True)
     sport_speciality: str
 
-    courses_list : Optional[Course] = Relationship(back_populates="coach") 
+    courses_list : Optional[Course] = Relationship(back_populates="coach")
