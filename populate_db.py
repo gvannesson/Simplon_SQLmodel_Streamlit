@@ -65,6 +65,36 @@ def create_fake_course(x):
     session.refresh(course)
     session.close()
 
-# def create_fake_registrations(x):
+
+def create_disponibility_list():
+    day_list = ["Monday", "Tuedsay", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    hour_list=[]
+    for day in day_list:
+        for h in range(9,17):
+            hour_list.append([day, str(h)]) 
+    session = Session(engine)
+    statement = select(Course.hour)
+    result_heure_cours = session.exec(statement)
+    heure_cours_list = []
+    for heure in result_heure_cours:
+        if heure[-2].isdigit():
+            hour_temp_list = [heure[:-3], heure[-3:]]
+            heure_cours_list.append(hour_temp_list)
+        else:
+            hour_temp_list = [heure[:-2], heure[-2:]]
+            heure_cours_list.append(hour_temp_list)
+    list_dispo = []
+    for h in hour_list:
+        if h not in heure_cours_list:
+            list_dispo.append(h)
+    return(list_dispo)
 
     
+# class Registration(SQLModel, table=True):
+#     id: int | None = Field(default=None, primary_key=True)
+#     member_id: str | None = Field(default=None, foreign_key="member.id")
+#     course_id: str | None = Field(default=None, foreign_key="course.id")
+#     registration_date: str
+
+#     member : Member = Relationship(back_populates="registrations")
+#     course : "Course" = Relationship(back_populates="registrations")
