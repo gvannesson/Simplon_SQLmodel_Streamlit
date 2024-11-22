@@ -131,12 +131,10 @@ if st.session_state.coaching_management:
             session = Session(engine)   
             with st.form("Validate coach deletion"):
                 statement = select(Coach).where(Coach.name == st.session_state.deleting_coach_selectbox)
-                results = session.exec(statement).first()
-                # results.name = name_modification
-                # results.sport_speciality = sport_coach_modification
-                session.delete(results)
-                session.commit()
-                # session.refresh(results)
+                results = session.exec(statement).all()
+                for result in results:
+                    session.delete(result)
+                    session.commit()
                 session.close()
                 st.session_state.reset = True
                 st.rerun()   

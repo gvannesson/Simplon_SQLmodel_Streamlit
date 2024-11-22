@@ -1,6 +1,6 @@
 import sqlite3
-from sqlmodel import Field, Session, SQLModel, create_engine, select, or_, Relationship
-from typing import Optional
+from sqlmodel import Field, SQLModel,  Relationship
+
 
 
 class Member(SQLModel, table=True):
@@ -43,4 +43,4 @@ class Coach(SQLModel, table=True):
     name: str = Field(index=True)
     sport_speciality: str
 
-    courses_list : Optional[Course] = Relationship(back_populates="coach", cascade_delete=True) 
+    courses_list : list[Course] = Relationship(back_populates="coach", cascade_delete=True) 
