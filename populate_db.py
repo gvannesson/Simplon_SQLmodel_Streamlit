@@ -92,8 +92,7 @@ def create_fake_registrations(num_registrations):
         member_ids = [member.id for member in session.exec(select(Member))]
 
         registrations_done = 0
-
-        for _ in range(num_registrations):
+        while registrations_done < num_registrations:
             if not course_ids or not member_ids:
                 print("No courses or members available.")
                 break
@@ -104,8 +103,7 @@ def create_fake_registrations(num_registrations):
             course_registrations = session.exec(
                 select(Registration).where(Registration.course_id == chosen_course_id)
             ).all()
-
-            if len(course_registrations) < 10:
+            if len(course_registrations) < 10 and chosen_member_id not in [registration.member_id for registration in course_registrations]:
                 registration = Registration(
                     member_id=chosen_member_id,
                     course_id=chosen_course_id,
@@ -115,8 +113,10 @@ def create_fake_registrations(num_registrations):
                 registrations_done += 1
             else:
                 print(f"Course {chosen_course_id} is already full.")
+                session.commit()
+            if registrations_done == num_registrations:
+                break
 
-        session.commit()
 
     print(f"{registrations_done} fake registrations have been created.")
 

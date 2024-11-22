@@ -93,9 +93,17 @@ if page == "Register in a Class":
                         course_id=result_course.id,
                         registration_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     )
-                    session.add(new_registration)
-                    session.commit()
-                    st.success(f"Success! {selected_member_name} has registered for the course.")
+                    course_registrations = session.exec(select(Registration).where(Registration.course_id == result_course.id)).all()
+                    print(f"####{course_registrations}")
+                    if len(course_registrations) < 10 and selected_member_id not in [registration.member_id for registration in course_registrations]:
+                        session.add(new_registration)
+                        session.commit()
+                        st.success(f"Success! {selected_member_name} has registered for the course.")
+                    else:
+                        if len(course_registrations) >= 10:
+                            st.error("The selected course is full!")
+                        if selected_member_id in [registration.member_id for registration in course_registrations]:
+                            st.error("déjà inscrit")
                 else:
                     st.error("The selected course is no longer available.")
 
