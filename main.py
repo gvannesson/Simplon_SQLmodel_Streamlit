@@ -2,6 +2,7 @@ from init_db import *
 from populate_db import *
 
 
+
 def main():
     create_db_and_tables()
     create_fake_members(10)

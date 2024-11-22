@@ -1,6 +1,6 @@
 import sqlite3
-from sqlmodel import Field, Session, SQLModel, create_engine, select, or_, Relationship
-from typing import Optional
+from sqlmodel import Field, SQLModel,  Relationship
+
 
 
 class Member(SQLModel, table=True):
@@ -9,7 +9,7 @@ class Member(SQLModel, table=True):
     email: str
     carte_access_id: str | None = Field(default=None, foreign_key="access_card.id")
 
-    registrations: list["Registration"] = Relationship(back_populates="member")
+    registrations: list["Registration"] = Relationship(back_populates="member", cascade_delete=True)
     access_card : "Access_card" = Relationship(back_populates="member")
 
 class Access_card(SQLModel, table=True):
@@ -20,8 +20,8 @@ class Access_card(SQLModel, table=True):
 
 class Registration(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    member_id: int | None = Field(default=None, foreign_key="member.id")
-    course_id: int | None = Field(default=None, foreign_key="course.id")
+    member_id: int | None = Field(default=None, foreign_key="member.id", ondelete="CASCADE")
+    course_id: int | None = Field(default=None, foreign_key="course.id", ondelete="CASCADE")
     registration_date: str
 
     member : Member = Relationship(back_populates="registrations")
@@ -34,8 +34,10 @@ class Course(SQLModel, table=True):
     hour: str
     max_capacity: int   
     coach_id: int| None = Field(default=None, foreign_key="coach.id")
+    max_capacity: str    
+    coach_id: int| None = Field(default=None, foreign_key="coach.id", ondelete="CASCADE")
 
-    registrations : list[Registration] = Relationship(back_populates="course")
+    registrations : list[Registration] = Relationship(back_populates="course", cascade_delete=True)
     coach : "Coach" = Relationship(back_populates="courses_list")
 
 class Coach(SQLModel, table=True):
@@ -43,4 +45,4 @@ class Coach(SQLModel, table=True):
     name: str = Field(index=True)
     sport_speciality: str
 
-    courses_list : Optional[Course] = Relationship(back_populates="coach")
+    courses_list : list[Course] = Relationship(back_populates="coach", cascade_delete=True) 

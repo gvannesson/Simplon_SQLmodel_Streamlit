@@ -2,13 +2,30 @@ from models import *
 from faker import Faker
 from init_db import *
 from sqlmodel import Session, select
+from sqlmodel import Session, select
 import random
+from datetime import datetime, timedelta
 from datetime import datetime, timedelta
 
 fake = Faker()
+fake = Faker()
 
 sports_list = ["Yoga", "Pilate", "Crossfit", "Pump", "Musculation", "Bodycombat", "Boxe"]
+sports_list = ["Yoga", "Pilate", "Crossfit", "Pump", "Musculation", "Bodycombat", "Boxe"]
 
+def create_fake_members(num_members):
+    with Session(engine) as session:
+        fake_list = random.sample(range(10000, 100000), num_members)
+        for i in range(num_members):
+            access_card = Access_card(unique_number=fake_list[i])
+            session.add(access_card)
+
+            member = Member(
+                name=fake.name(),
+                email=fake.email(),
+                access_card=access_card
+            )
+            session.add(member)
 def create_fake_members(num_members):
     with Session(engine) as session:
         fake_list = random.sample(range(10000, 100000), num_members)
