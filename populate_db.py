@@ -119,3 +119,26 @@ def create_fake_registrations(num_registrations):
         session.commit()
 
     print(f"{registrations_done} fake registrations have been created.")
+
+def create_disponibility_list():
+    day_list = ["Monday", "Tuedsay", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    hour_list=[]
+    for day in day_list:
+        for h in range(9,17):
+            hour_list.append([day, str(h)]) 
+    session = Session(engine)
+    statement = select(Course.hour)
+    result_heure_cours = session.exec(statement)
+    heure_cours_list = []
+    for heure in result_heure_cours:
+        if heure[-2].isdigit():
+            hour_temp_list = [heure[:-3], heure[-3:]]
+            heure_cours_list.append(hour_temp_list)
+        else:
+            hour_temp_list = [heure[:-2], heure[-2:]]
+            heure_cours_list.append(hour_temp_list)
+    list_dispo = []
+    for h in hour_list:
+        if h not in heure_cours_list:
+            list_dispo.append(h)
+    return(list_dispo)
