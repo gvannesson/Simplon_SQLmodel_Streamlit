@@ -32,9 +32,7 @@ class Course(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     sport_type: str
     hour: str
-    max_capacity: int   
-    coach_id: int| None = Field(default=None, foreign_key="coach.id")
-    max_capacity: str    
+    max_capacity: int      
     coach_id: int| None = Field(default=None, foreign_key="coach.id", ondelete="CASCADE")
 
     registrations : list[Registration] = Relationship(back_populates="course", cascade_delete=True)
