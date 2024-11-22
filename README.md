@@ -3,7 +3,7 @@
 
 # <p align="center">La Poigne d'Acier</p>
 <p align="center">
-    <img src="images/banner.png" alt="Quiz Application Banner">
+    <img src="images/banner.png" alt="Banner">
 </p>
 
 This project is a web application designed to modernize the management of "La Poigne d’Acier," a gym offering a variety of fitness classes. The app aims to streamline administrative tasks for staff and improve the user experience for gym members.
@@ -67,6 +67,12 @@ This project is a web application designed to modernize the management of "La Po
 - Streamlit: For creating interactive web applications.
 - SQLModel: An ORM for database handling.
 - Faker: For generating mock data.
+
+## ERD Diagram
+<p align="center">
+    <img src="images/ERD diagram.png" alt="ERD">
+</p>
+
 
 ## Outputs
 
